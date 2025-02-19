@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Caixa Eletrônico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px;
+        }
+        #mensagem {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+        .saldo {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulador de Caixa Eletrônico</h1>
+        <p class="saldo">Saldo Atual: R$ <span id="saldo">1000.00</span></p>
+
+        <div>
+            <input type="number" id="valorDeposito" placeholder="Valor para Depósito">
+            <button onclick="depositar()">Depositar</button>
+        </div>
+        <div>
+            <input type="number" id="valorSaque" placeholder="Valor para Saque">
+            <button onclick="sacar()">Sacar</button>
+        </div>
+        <p id="mensagem"></p>
+    </div>
+
+    <script>
+        // Saldo inicial
+        let saldo = 1000.00;
+
+        function atualizarSaldo() {
+            document.getElementById('saldo').innerText = saldo.toFixed(2);
+        }
+
+        function depositar() {
+            let valorDeposito = parseFloat(document.getElementById('valorDeposito').value);
+            let mensagem = document.getElementById('mensagem');
+            
+            if (isNaN(valorDeposito) || valorDeposito <= 0) {
+                mensagem.innerText = "Por favor, insira um valor de depósito válido.";
+                return;
+            }
+            
+            saldo += valorDeposito;
+            atualizarSaldo();
+            mensagem.innerText = `Depósito de R$ ${valorDeposito.toFixed(2)} realizado com sucesso!`;
+            
+            // Limpar campo de depósito
+            document.getElementById('valorDeposito').value = "";
+        }
+
+        function sacar() {
+            let valorSaque = parseFloat(document.getElementById('valorSaque').value);
+            let mensagem = document.getElementById('mensagem');
+            
+            if (isNaN(valorSaque) || valorSaque <= 0) {
+                mensagem.innerText = "Por favor, insira um valor de saque válido.";
+                return;
+            }
+            
+            if (valorSaque > saldo) {
+                mensagem.innerText = "Saldo insuficiente para realizar o saque!";
+                return;
+            }
+            
+            saldo -= valorSaque;
+            atualizarSaldo();
+            mensagem.innerText = `Saque de R$ ${valorSaque.toFixed(2)} realizado com sucesso!`;
+            
+            // Limpar campo de saque
+            document.getElementById('valorSaque').value = "";
+        }
+
+        // Atualiza o saldo inicial na interface
+        atualizarSaldo();
+    </script>
+</body>
+</html>

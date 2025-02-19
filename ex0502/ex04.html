@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+    <input type="password" required id="password1">
+    <input type="password" required id="password2">
+    <button id="btn">submit</button>
+
+    <script>
+      document.querySelector('#btn').addEventListener('click', () => {
+        const password = document.querySelector('#password1').value;
+        const passwordConfirm = document.querySelector('#password2').value;
+
+        if(password){
+          if (password === passwordConfirm && password.length >= 8){
+            alert('Senha cadastrada com sucesso!');
+          } else if(password !== passwordConfirm) {
+            alert('Senhas não coincidem!');
+          } else {
+            alert('Confira se as senhas são válidas');
+          }
+        } else {
+          alert('Insira uma senha');
+        }
+      });
+    </script>
+
+</body>
+</html>

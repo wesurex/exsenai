@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Banco</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px;
+        }
+        #mensagem, #historico {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="login-container">
+        <h1>Login</h1>
+        <input type="text" id="usuario" placeholder="Usuário">
+        <input type="password" id="senha" placeholder="Senha">
+        <button onclick="login()">Entrar</button>
+        <p id="mensagem"></p>
+    </div>
+
+    <div class="container" id="banco-container" style="display:none;">
+        <h1>Bem-vindo, <span id="user-name"></span></h1>
+        <p>Saldo Atual: R$ <span id="saldo">0.00</span></p>
+        <input type="number" id="valorTransferencia" placeholder="Valor para Transferência">
+        <input type="text" id="destinatario" placeholder="Usuário Destinatário">
+        <button onclick="transferir()">Transferir</button>
+        <button onclick="logout()">Sair</button>
+        <p id="mensagemBanco"></p>
+        <h3>Histórico de Transações</h3>
+        <div id="historico"></div>
+    </div>
+
+    <script>
+        let usuarios = {
+            "joao": { senha: "1234", saldo: 1000, historico: [] },
+            "maria": { senha: "5678", saldo: 1500, historico: [] }
+        };
+        let tentativas = 0;
+        let usuarioAtual = null;
+
+        function login() {
+            let user = document.getElementById("usuario").value;
+            let pass = document.getElementById("senha").value;
+            let mensagem = document.getElementById("mensagem");
+            
+            if (tentativas >= 3) {
+                mensagem.innerText = "Conta bloqueada por múltiplas tentativas incorretas.";
+                return;
+            }
+            
+            if (usuarios[user] && usuarios[user].senha === pass) {
+                sessionStorage.setItem("usuario", user);
+                usuarioAtual = user;
+                carregarBanco();
+            } else {
+                tentativas++;
+                mensagem.innerText = "Usuário ou senha incorretos. Tentativa " + tentativas + " de 3.";
+            }
+        }
+
+        function carregarBanco() {
+            document.getElementById("login-container").style.display = "none";
+            document.getElementById("banco-container").style.display = "block";
+            document.getElementById("user-name").innerText = usuarioAtual;
+            atualizarSaldo();
+            atualizarHistorico();
+        }
+
+        function atualizarSaldo() {
+            document.getElementById("saldo").innerText = usuarios[usuarioAtual].saldo.toFixed(2);
+        }
+
+        function atualizarHistorico() {
+            let historicoDiv = document.getElementById("historico");
+            historicoDiv.innerHTML = usuarios[usuarioAtual].historico.join("<br>");
+        }
+
+        function transferir() {
+            let valor = parseFloat(document.getElementById("valorTransferencia").value);
+            let destinatario = document.getElementById("destinatario").value;
+            let mensagemBanco = document.getElementById("mensagemBanco");
+            
+            if (!usuarios[destinatario]) {
+                mensagemBanco.innerText = "Destinatário não encontrado.";
+                return;
+            }
+
+            if (isNaN(valor) || valor <= 0) {
+                mensagemBanco.innerText = "Insira um valor válido.";
+                return;
+            }
+
+            if (valor > usuarios[usuarioAtual].saldo) {
+                mensagemBanco.innerText = "Saldo insuficiente.";
+                return;
+            }
+
+            usuarios[usuarioAtual].saldo -= valor;
+            usuarios[destinatario].saldo += valor;
+            usuarios[usuarioAtual].historico.push(`Transferiu R$ ${valor.toFixed(2)} para ${destinatario}.`);
+            usuarios[destinatario].historico.push(`Recebeu R$ ${valor.toFixed(2)} de ${usuarioAtual}.`);
+            atualizarSaldo();
+            atualizarHistorico();
+            mensagemBanco.innerText = "Transferência realizada com sucesso.";
+        }
+
+        function logout() {
+            sessionStorage.removeItem("usuario");
+            usuarioAtual = null;
+            document.getElementById("login-container").style.display = "block";
+            document.getElementById("banco-container").style.display = "none";
+        }
+
+        window.onload = function() {
+            let user = sessionStorage.getItem("usuario");
+            if (user && usuarios[user]) {
+                usuarioAtual = user;
+                carregarBanco();
+            }
+        };
+    </script>
+</body>
+</html>

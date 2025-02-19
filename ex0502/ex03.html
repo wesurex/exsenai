@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relógio Digital</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #222;
+        color: white;
+        font-size: 48px;
+      }
+      #clock {
+        font-size: 3rem;
+      }
+      @media screen and (max-width: 768px) {
+        #clock {
+          transform: rotate(90deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="clock"></div>
+
+    <script>
+      function atualizarRelogio() {
+        const agora = new Date();
+
+        const horas = String(agora.getHours()).padStart(2, "0");
+        const minutos = String(agora.getMinutes()).padStart(2, "0");
+        const segundos = String(agora.getSeconds()).padStart(2, "0");
+
+        document.getElementById(
+          "clock"
+        ).textContent = `${horas}:${minutos}:${segundos}`;
+      }
+      setInterval(atualizarRelogio, 1000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabuada Interativa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input, button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px;
+        }
+        #resultado {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tabuada Interativa</h1>
+    <input type="number" id="numero" placeholder="Digite um número">
+    <button onclick="gerarTabuada()">Gerar Tabuada</button>
+    <div id="resultado"></div>
+
+    <script>
+        function gerarTabuada() {
+            let num = document.getElementById("numero").value;
+            let resultado = document.getElementById("resultado");
+            
+            if (num === "") {
+                resultado.innerHTML = "Por favor, digite um número.";
+                return;
+            }
+            
+            num = parseInt(num);
+            resultado.innerHTML = "<h2>Tabuada do " + num + "</h2>";
+            
+            for (let i = 1; i <= 10; i++) {
+                resultado.innerHTML += num + " x " + i + " = " + (num * i) + "<br>";
+            }
+        }
+    </script>
+</body>
+</html>

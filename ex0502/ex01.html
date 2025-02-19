@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>digite 3 numeros para ter uma média</h1>
+  <input type="text" id="num1">
+  <input type="text" id="num2">
+  <input type="text" id="num3">
+  <button id="btn">média</button>
+  <script>
+    const btn = document.getElementById("btn").addEventListener("click", () => {
+      const num1 = parseFloat(document.getElementById("num1").value);
+      const num2 = parseFloat(document.getElementById("num2").value);
+      const num3 = parseFloat(document.getElementById("num3").value);
+      const media = (num1 + num2 + num3) / 3;
+      alert(`A média dos valores é ${media}`);
+    })
+  </script>
+</body>
+</html>
