@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <h1>Gerador de cards</h1>
+    </header>
+    <main>
+      <label for="title">
+        Titulo:
+        <input
+          type="text"
+          name="title"
+          required
+          placeholder="Titulo"
+          id="title"
+        />
+      </label>
+      <label for="url">
+        Url da imagem:
+        <input
+          type="text"
+          name="url"
+          required
+          placeholder="URL da imagem"
+          id="url"
+        />
+      </label>
+      <label for="description">
+        Descrição:
+        <input
+          type="text"
+          name="description"
+          required
+          placeholder="Descrição"
+          id="description"
+        />
+      </label>
+      <label for="date">
+        Data:
+        <input type="date" name="date" required id="date" />
+      </label>
+      <button id="btn">
+        Gerar
+    </button>
+    </main>
+    <section id="cardContainer">
+    </section>
+    <script src="card.js"></script>
+</body>
+</html>
